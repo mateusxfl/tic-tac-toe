@@ -3,9 +3,11 @@ DrawBoard();
 DrawPanel();
 WriteOnPanel();
 
-SetScoreboard('o', 4);
+// SetScoreboard('o', 4);
 
 char currentPlayer = 'x';
+
+char[,] board = new char[3, 3];
 
 Console.ForegroundColor = ConsoleColor.Blue;
 SetNextMove(ref currentPlayer);
@@ -36,8 +38,6 @@ static void DrawBoard()
         if (i != 2)
             Console.WriteLine("--------------+--------------+--------------");
     }
-
-    Console.WriteLine("");
 }
 
 static void DrawPanel()
@@ -61,17 +61,9 @@ static void WriteOnPanel()
     Console.SetCursorPosition(55, 12);
     Console.Write("-+-+-+-+ PAINEL +-+-+-+-");
 
-    Console.ForegroundColor = ConsoleColor.Blue;
-    Console.SetCursorPosition(55, 14);
-    Console.Write("JOGADOR X: 0 PONTOS");
+    SetScoreboard(0, 0);
 
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.SetCursorPosition(55, 16);
-    Console.Write("JOGADOR O: 0 PONTOS");
-
-    Console.ForegroundColor = ConsoleColor.Blue;
-    Console.SetCursorPosition(55, 18);
-    Console.Write("SUA VEZ X:");
+    editInputLine('x');
 
     Console.ForegroundColor = ConsoleColor.DarkMagenta;
     Console.SetCursorPosition(55, 20);
@@ -84,25 +76,36 @@ static void WriteOnPanel()
     Console.Write("github.com/mateus.xfl");
 }
 
-static void SetScoreboard(char player, int value)
+static void SetScoreboard(int valuePlayerX, int valuePlayerO)
 {
-    if (player == 'x')
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.SetCursorPosition(55, 14);
+    Console.Write($"JOGADOR X: {valuePlayerX} PONTOS");
+
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.SetCursorPosition(55, 16);
+    Console.Write($"JOGADOR O: {valuePlayerO} PONTOS");
+}
+
+static void editInputLine(char currentPlayer)
+{
+    if (currentPlayer == 'x')
     {
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.SetCursorPosition(55, 14);
-        Console.Write($"JOGADOR X: {value} PONTOS");
+        Console.SetCursorPosition(55, 18);
+        Console.Write("SUA VEZ X:    ");
     }
     else
     {
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.SetCursorPosition(55, 16);
-        Console.Write($"JOGADOR O: {value} PONTOS");
+        Console.SetCursorPosition(55, 18);
+        Console.Write("SUA VEZ O:    ");
     }
 }
 
 static void SetNextMove(ref char currentPlayer)
 {
-    Console.SetCursorPosition(65, 18);
+    Console.SetCursorPosition(66, 18);
     string location = Console.ReadLine();
     var data = location.Split(",");
     MarkField(int.Parse(data[0]), int.Parse(data[1]), ref currentPlayer);
@@ -160,18 +163,3 @@ static void MarkField(int line, int column, ref char currentPlayer)
     SetNextMove(ref currentPlayer);
 }
 
-static void editInputLine(char currentPlayer)
-{
-    if (currentPlayer == 'x')
-    {
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.SetCursorPosition(55, 18);
-        Console.Write("SUA VEZ X:        ");
-    }
-    else
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.SetCursorPosition(55, 18);
-        Console.Write("SUA VEZ O:        ");
-    }
-}
